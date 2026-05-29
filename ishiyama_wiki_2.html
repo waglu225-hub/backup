@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    /* 기본 스타일 및 마우스 호버(PC) 대응 */
+    .footnote-container { display: inline-block; position: relative; cursor: pointer; }
+    .footnote-text { font-size: 0.8em; color: #0275d8; vertical-align: super; font-weight: normal; }
+    
+    /* 팝업창 기본 스타일 (화면 중앙에 고정) */
+    .footnote-content { 
+        display: none; 
+        position: fixed !important; 
+        top: 50% !important; 
+        left: 50% !important; 
+        transform: translate(-50%, -50%) !important; 
+        background-color: #ffffff !important; 
+        color: #373a3c !important; 
+        border: 1px solid #cccccc !important; 
+        padding: 20px !important; 
+        width: 280px !important; 
+        max-width: 85vw !important; 
+        height: auto !important; 
+        box-sizing: border-box !important; 
+        white-space: normal !important; 
+        word-break: break-all !important; 
+        overflow-wrap: break-word !important; 
+        text-align: justify !important; 
+        border-radius: 8px; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important; 
+        font-size: 0.9em !important; 
+        line-height: 1.6 !important; 
+        z-index: 9999999 !important; 
+    }
+    
+    /* PC 환경에서 마우스 올렸을 때 활성화 */
+    .footnote-container:hover .footnote-content { display: block !important; }
+    /* 모바일 환경 등에서 자바스크립트로 활성화 클래스를 붙였을 때 대응 */
+    .footnote-container.is-active .footnote-content { display: block !important; }
+    
+    .fn-num { display: inline !important; color: #0275d8; font-weight: bold; margin-right: 5px; }
+    .fn-close-hint { display: block; margin-top: 15px; padding-top: 8px; border-top: 1px solid #eee; font-size: 0.75em; color: #999; text-align: center; }
+
+    /* 리스트 및 폰트 스타일 */
+    .wiki-clean-list {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Malgun Gothic", sans-serif;
+        line-height: 1.7;
+        color: #373a3c;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .wiki-clean-list li {
+        margin-bottom: 10px;
+        font-size: 14px;
+        text-align: justify;
+    }
+    .wiki-clean-list strong {
+        font-weight: bold;
+        color: #000000;
+    }
+    .wiki-clean-list .accent-text {
+        color: #0275d8;
+        font-weight: bold;
+        margin-right: 5px;
+    }
+</style>
+</head>
+<body>
+
+<div class="wiki-main-container" style="padding: 15px;">
+    <ul class="wiki-clean-list">
+        <li><span class="accent-text">[23]</span> 이시야마 미유키가 <strong>요리와 가사 담당</strong>, 키사라기 루키아가 <strong>거주지 반절 제공과 자본 담당</strong>이다.<span style="text-decoration: line-through; color: #999;">말이 자본이지 그냥 지갑</span> 기묘한 순환 구조.</li>
+        <li><span class="accent-text">[24]</span> <strong>본모습</strong>을 거리낌 없이 나타내는 것이 대표적인 예.</li>
+        <li><span class="accent-text">[25]</span> 조금 막 대하는 감이 있다. 하지만, 그녀 자신은 의외로 키사라기 루키아를 <strong>편하게 대하는</strong> 방증일지도.</li>
+        <li><span class="accent-text">[26]</span> 과거를 외면하지 않았다.</li>
+        <li><span class="accent-text">[27]</span> 여기서 웃긴 점은, '루키아'는 애지중지 키워왔던 
+            <span class="footnote-container" onclick="toggleFootnote(event, this)">
+                <span class="footnote-text">[주석]</span>
+                <span class="footnote-content">
+                    <span class="fn-num">[주석]</span> 이시야마 미유키가 요괴나 원령 같은 이매망량들을 퇴치하는 법을 가르쳤다.
+                    <span class="fn-close-hint">(바깥 영역을 터치하면 닫힙니다)</span>
+                </span>
+            </span> 
+            미유키에게 가사 전반을 맡아달라는 부탁을 받았을 때 겉으로는 툴툴거렸지만 속으로는 꽤 기뻐했다는 사실이다.
+        </li>
+    </ul>
+</div>
+
+<script>
+    // 모바일 기기 터치 및 PC 클릭 이벤트 제어 함수
+    function toggleFootnote(event, element) {
+        // 이벤트 버블링 방지 (부모 요소나 body 클릭 처리와 겹치지 않게 함)
+        event.stopPropagation();
+        
+        // 이미 켜져 있다면 끄고, 꺼져 있다면 다른 주석들을 다 끄고 이것만 켬
+        const isActive = element.classList.contains('is-active');
+        closeAllFootnotes();
+        
+        if (!isActive) {
+            element.classList.add('is-active');
+        }
+    }
+
+    // 모든 주석 팝업창을 닫는 함수
+    function closeAllFootnotes() {
+        document.querySelectorAll('.footnote-container').forEach(el => {
+            el.classList.remove('is-active');
+        });
+    }
+
+    // 팝업창 외부 빈 공간을 터치/클릭하면 주석이 닫히도록 설정
+    document.addEventListener('click', function() {
+        closeAllFootnotes();
+    });
+</script>
+
+</body>
+</html>
